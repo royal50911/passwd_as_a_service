@@ -22,7 +22,7 @@ class Groups():
                         }
                         groups.append(group)
         except(IOError):
-            print("wrong file path or file not found for group file")
+            print("Wrong file path or file not found for group file")
             sys.exit(1)
         except (ValueError):
             print("File not formatted correctly")

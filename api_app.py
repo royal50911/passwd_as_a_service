@@ -5,6 +5,15 @@ sys.path.append(os.path.join(config.basedir,"utils/"))
 import userParser, groupParser
 
 def create_app(passwd_file, group_file):
+
+    if not os.path.exists(passwd_file):
+        raise Exception ("Wrong file path or file not found for passwd file")
+        sys.exit(1)
+
+    if not os.path.exists(group_file):
+        sys.exit(1)
+        raise Exception ("Wrong file path or file not found for group file")
+
     app = Flask(__name__)
     userObj = userParser.Users(passwd_file)
     groupObj = groupParser.Groups(group_file)
@@ -79,9 +88,9 @@ def create_app(passwd_file, group_file):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("python " + os.path.basename(__file__))
-    parser.add_argument('-pf', '--passfile', help='password file path',
+    parser.add_argument('-pf', '--passfile', help='path to password file',
                 action='store', dest='passwd_file')
-    parser.add_argument('-gf', '--groupfile', help='group file path',
+    parser.add_argument('-gf', '--groupfile', help='path to group file',
                 action='store', dest='group_file')
     parser.add_argument('-c', '--config', 
                 help='environment config: [dev, prod, testing]; dev by default',

@@ -21,6 +21,10 @@ def test_home():
     assert resp.status_code == 200 
     assert content ==  "Welcome To My Rest API App"
 
+def test_not_found_page():
+    resp = app.get('/no_page')
+    assert resp.status_code == 404 
+
 def test_users():
     resp = app.get('/users')
     assert resp.status_code == 200 
@@ -37,6 +41,7 @@ def test_users():
     }
 
 def test_users_by_query():
+    ## existing user
     resp = app.get('/users/query?home=%2Fvar%2Fempty')
     assert resp.status_code == 200 
     assert resp.content_type == 'application/json'
@@ -50,6 +55,14 @@ def test_users_by_query():
         "shell": "/usr/bin/false", 
         "uid": "239"
     }
+
+    # invalid field or non existing user
+    resp = app.get('/users/query?home=%2Fvar')
+    assert resp.status_code == 200 
+    assert resp.content_type == 'application/json'
+    content = json.loads(resp.get_data(as_text=True))
+    assert len(content) == 0
+    assert content == []
 
 def test_users_by_uid():
     resp = app.get('/users/239')
@@ -66,6 +79,13 @@ def test_users_by_uid():
         "uid": "239"
     }
 
+    # non existing user
+    resp = app.get('/users/3333')
+    assert resp.status_code == 200 
+    assert resp.content_type == 'application/json'
+    content = json.loads(resp.get_data(as_text=True))
+    assert content == []
+
 def test_user_groups_by_uid():
     resp = app.get('/users/221/groups')
     assert resp.status_code == 200 
@@ -80,6 +100,13 @@ def test_user_groups_by_uid():
         ], 
         "name": "_webauthserver"
     }
+
+    # user with no groups
+    resp = app.get('/users/331/groups')
+    assert resp.status_code == 200 
+    assert resp.content_type == 'application/json'
+    content = json.loads(resp.get_data(as_text=True))
+    assert content == []
 
 def test_groups():
     resp = app.get('/groups')
@@ -110,6 +137,14 @@ def test_groups_by_query():
         "name": "_analyticsusers"
     }
 
+    # invalid field or non existing group
+    resp = app.get('/groups/query?members=_testing')
+    assert resp.status_code == 200 
+    assert resp.content_type == 'application/json'
+    content = json.loads(resp.get_data(as_text=True))
+    assert len(content) == 0
+    assert content == []
+
 def test_groups_by_gid():
     resp = app.get('/groups/13')
     assert resp.status_code == 200 
@@ -124,8 +159,17 @@ def test_groups_by_gid():
         "name": "_taskgated"
     }
 
-def test_reflect_on_changes():
+    # non existing group
+    resp = app.get('/groups/1234')
+    assert resp.status_code == 200 
+    assert resp.content_type == 'application/json'
+    content = json.loads(resp.get_data(as_text=True))
+    assert len(content) == 0
+    assert content == []
 
+
+def test_reflect_on_changes():
+    # add new user and group
     with open(passwd_file, "a+") as f:
         f.write("testing_passwd:*:256:256:testing user:/testing/user:/usr/bin/false")
 
@@ -148,6 +192,7 @@ def test_reflect_on_changes():
     assert len(content) == 3
     assert content["name"] == "_testing_group"
 
+    # remove prev user n group just added
     os.system("sed -i '' '/testing_passwd/d' {}".format(passwd_file))
     os.system("sed -i '' '/testing_group/d' {}".format(group_file))
 
