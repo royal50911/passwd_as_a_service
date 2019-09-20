@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """ 
 Project: Password as a service 
 @Author: Hien Hoang
