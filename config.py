@@ -1,3 +1,9 @@
+""" 
+Project: Password as a service 
+@Author: Hien Hoang
+################
+configuration file for main app
+"""
 
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))

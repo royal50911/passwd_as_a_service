@@ -1,10 +1,16 @@
-
+""" 
+Project: Password as a service 
+@Author: Hien Hoang
+################
+parse helper to get all groups from a file
+"""
 import os, sys
 class Groups():
     def __init__(self, groups_file):
         self._file = os.path.realpath(groups_file)
 
     def getGroups(self):
+        """Function to parse group file input and return all groups"""
         groups = []
         try:
             with open(self._file, "r") as f:
@@ -29,6 +35,7 @@ class Groups():
             return groups
         
     def getGroupByGID(self, gid):
+        """Function to get groups given gid"""
         groups = self.getGroups()
         for group in groups:
             if group["gid"] ==gid:
@@ -36,6 +43,7 @@ class Groups():
         return []
 
     def getGroupByQuery(self, query):
+        """Function to get groups given query fields"""
         groups = self.getGroups()
         for k,vals in query.lists():
             i = len(groups)-1

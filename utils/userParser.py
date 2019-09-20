@@ -1,10 +1,16 @@
-
+""" 
+Project: Password as a service 
+@Author: Hien Hoang
+################
+parse helper to get all users from a file
+"""
 import os, sys
 class Users():
     def __init__(self, users_file):
         self._file = os.path.realpath(users_file)
 
     def getUsers(self):
+        """Function to parse passwd file input and return all users"""
         users = []
         try:
             with open(self._file, "r") as f:
@@ -30,6 +36,7 @@ class Users():
             return users
         
     def getUserByUID(self, uid):
+        """Function to get users given gid"""
         users = self.getUsers()
         for user in users:
             if user["uid"] == uid:
@@ -37,6 +44,7 @@ class Users():
         return []
 
     def getUserByQuery(self, query):
+        """Function to get users given query fields"""
         users = self.getUsers()
         for k,vals in query.lists():
             i = len(users)-1

@@ -1,3 +1,26 @@
+""" 
+Project: Password as a service 
+@Author: Hien Hoang
+################
+Main App to create rest api app
+Preps: flask, Flask-RESTful
+
+usage: python api_app.py [-h] [-pf PASSWD_FILE] [-gf GROUP_FILE]
+                         [-c CONFIG_MODE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -pf PASSWD_FILE, --passfile PASSWD_FILE
+                        path to password file if specified, 
+                        sys path by default in config.py
+  -gf GROUP_FILE, --groupfile GROUP_FILE
+                        path to group file if specified, 
+                        sys path by default in config.py
+  -c CONFIG_MODE, --config CONFIG_MODE
+                        environment config: [dev, prod, testing]; dev by
+                        default
+
+"""
 from flask import Flask, url_for, request, jsonify
 import sys, os, argparse
 import config
@@ -5,7 +28,7 @@ sys.path.append(os.path.join(config.basedir,"utils/"))
 import userParser, groupParser
 
 def create_app(passwd_file, group_file):
-
+    """Function to create app"""
     app = Flask(__name__)
     userObj = userParser.Users(passwd_file)
     groupObj = groupParser.Groups(group_file)
@@ -62,6 +85,7 @@ def create_app(passwd_file, group_file):
 
     @app.errorhandler(404)
     def not_found(error=None):
+        """Function handle error in case route not found"""
         message = {
                 'status': 404,
                 'message': 'Not Found: ' + request.url,
@@ -73,6 +97,7 @@ def create_app(passwd_file, group_file):
     return app
 
 def validate_input(passwd_file, group_file, mode):
+    """Functionn to validate inputs for files and config mode"""
     try:     
         userObj = userParser.Users(passwd_file)
         userObj.getUsers()
@@ -89,9 +114,11 @@ def validate_input(passwd_file, group_file, mode):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("python " + os.path.basename(__file__))
-    parser.add_argument('-pf', '--passfile', help='path to password file',
+    parser.add_argument('-pf', '--passfile', 
+            help='passwd file path. Otherwise sys path by default in config.py',
                 action='store', dest='passwd_file')
-    parser.add_argument('-gf', '--groupfile', help='path to group file',
+    parser.add_argument('-gf', '--groupfile', 
+            help='group file path. Otherwise sys path by default in config.py',
                 action='store', dest='group_file')
     parser.add_argument('-c', '--config', 
                 help='environment config: [dev, prod, testing]; dev by default',
