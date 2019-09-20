@@ -6,14 +6,6 @@ import userParser, groupParser
 
 def create_app(passwd_file, group_file):
 
-    if not os.path.exists(passwd_file):
-        raise Exception ("Wrong file path or file not found for passwd file")
-        sys.exit(1)
-
-    if not os.path.exists(group_file):
-        sys.exit(1)
-        raise Exception ("Wrong file path or file not found for group file")
-
     app = Flask(__name__)
     userObj = userParser.Users(passwd_file)
     groupObj = groupParser.Groups(group_file)
@@ -86,6 +78,21 @@ def create_app(passwd_file, group_file):
 
     return app
 
+def validate_input(passwd_file, group_file, mode):
+    try:     
+        userObj = userParser.Users(passwd_file)
+        userObj.getUsers()
+        groupObj = groupParser.Groups(group_file)
+        groupObj.getGroups()
+    except (IOError, ValueError) as e:
+        print(e)
+        sys.exit(1)
+
+    if mode not in config.modes:
+        print ("Wrong config mode value. Must be in one " + \
+            "these fields: [dev, prod, testing]")
+        sys.exit(1)
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("python " + os.path.basename(__file__))
     parser.add_argument('-pf', '--passfile', help='path to password file',
@@ -97,7 +104,6 @@ if __name__ == '__main__':
                 action='store', default="dev", dest='config_mode')
     arguments = parser.parse_args()
     
-    mode = config.modes[arguments.config_mode]
     passwd_file = config.SysFiles.PASSWD_FILE
     group_file = config.SysFiles.GROUP_FILE
     if arguments.passwd_file:
@@ -105,6 +111,10 @@ if __name__ == '__main__':
     if arguments.group_file:
         group_file = arguments.group_file
 
+    # valid input before running
+    validate_input(passwd_file, group_file,arguments.config_mode)
+
+    mode = config.modes[arguments.config_mode]
     app = create_app(passwd_file,group_file)
     app.config.from_object('config.{}'.format(mode))
     app.run(host= config.host, port=config.port)

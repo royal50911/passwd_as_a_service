@@ -22,10 +22,9 @@ class Users():
                         }
                         users.append(user)
         except(IOError):
-            print("Wrong file path or file not found for passwd file")
-            sys.exit(1)
+            raise IOError("Wrong file path or file not found for passwd file")
         except (ValueError):
-            print("File not formatted correctly")
+            raise ValueError ("Passwd file is NOT formatted correctly")
             sys.exit(1)
         else:
             return users
