@@ -33,7 +33,7 @@ class Groups():
         for group in groups:
             if group["gid"] ==gid:
                 return group
-        return None
+        return []
 
     def getGroupByQuery(self, query):
         groups = self.getGroups()

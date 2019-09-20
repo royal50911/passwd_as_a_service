@@ -34,7 +34,7 @@ class Users():
         for user in users:
             if user["uid"] == uid:
                 return user
-        return None
+        return []
 
     def getUserByQuery(self, query):
         users = self.getUsers()
