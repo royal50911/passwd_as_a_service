@@ -38,14 +38,6 @@ def test_users():
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 18
-    assert content[0] == {
-        "comment": "Unprivileged User", 
-        "gid": "-2", 
-        "home": "/var/empty", 
-        "name": "nobody", 
-        "shell": "/usr/bin/false", 
-        "uid": "-2"
-    }
 
 def test_users_by_query():
     ## existing user
@@ -54,19 +46,11 @@ def test_users_by_query():
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 12
-    assert content[0] == {
-        "comment": "_launchservicesd", 
-        "gid": "239", 
-        "home": "/var/empty", 
-        "name": "_launchservicesd", 
-        "shell": "/usr/bin/false", 
-        "uid": "239"
-    }
+    assert content[0]["home"] == "/var/empty"
 
     # invalid field or non existing user
     resp = app.get('/users/query?home=%2Fvar')
-    assert resp.status_code == 200 
-    assert resp.content_type == 'application/json'
+    assert resp.status_code == 200
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 0
     assert content == []
@@ -77,19 +61,11 @@ def test_users_by_uid():
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 6
-    assert content == {
-        "comment": "_launchservicesd", 
-        "gid": "239", 
-        "home": "/var/empty", 
-        "name": "_launchservicesd", 
-        "shell": "/usr/bin/false", 
-        "uid": "239"
-    }
+    assert content["uid"] == "239"
 
     # non existing user
     resp = app.get('/users/3333')
     assert resp.status_code == 200 
-    assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert content == []
 
@@ -99,19 +75,11 @@ def test_user_groups_by_uid():
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 3
-    assert content == {
-        "gid": "221", 
-        "members": [
-            "_teamsserver", 
-            "_devicemgr"
-        ], 
-        "name": "_webauthserver"
-    }
+    assert content["gid"] == "221"
 
     # user with no groups
     resp = app.get('/users/331/groups')
     assert resp.status_code == 200 
-    assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert content == []
 
@@ -121,33 +89,19 @@ def test_groups():
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 57
-    assert content[0] == {
-        "gid": "-2", 
-        "members": [], 
-        "name": "nobody"
-    }
 
 def test_groups_by_query():
     resp = app.get('/groups/query?members=_analyticsd&members=_networkd')
-    assert resp.status_code == 200 
+    assert resp.status_code == 200
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 1
-    assert content[0] == {
-        "gid": "250", 
-        "members": [
-        "_analyticsd", 
-        "_networkd", 
-        "_timed", 
-        "_reportmemoryexception"
-        ], 
-        "name": "_analyticsusers"
-    }
+    assert ("_analyticsd" in content[0]["members"]) == True
+    assert ("_networkd" in content[0]["members"]) == True
 
     # invalid field or non existing group
     resp = app.get('/groups/query?members=_testing')
     assert resp.status_code == 200 
-    assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 0
     assert content == []
@@ -158,18 +112,11 @@ def test_groups_by_gid():
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 3
-    assert content == {
-        "gid": "13", 
-        "members": [
-            "_taskgated"
-        ], 
-        "name": "_taskgated"
-    }
+    assert content["gid"] == "13"
 
     # non existing group
     resp = app.get('/groups/1234')
-    assert resp.status_code == 200 
-    assert resp.content_type == 'application/json'
+    assert resp.status_code == 200
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 0
     assert content == []
@@ -177,38 +124,52 @@ def test_groups_by_gid():
 
 def test_reflect_on_changes():
     # add new user and group
+    passwd_cont = ""
+    with open(passwd_file, "r") as f:
+        passwd_cont = f.read()
+    group_cont = ""
+    with open(group_file, "r") as f:
+        group_cont = f.read()
+
     with open(passwd_file, "a+") as f:
         f.write("testing_passwd:*:256:256:testing user:/testing/user:/usr/bin/false")
-
     with open(group_file, "a+") as f:
         f.write("_testing_group:*:256:_devicemgr,_testGroup,_teamsserver")
 
-    resp = app.get('/users')
-    assert resp.status_code == 200
+    resp = app.get('/users/256')
+    assert resp.status_code == 200 
+    assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
-    assert len(content) == 19
+    assert len(content) == 6
+    assert content["uid"] == "256"
 
-    resp = app.get('/groups')
-    assert resp.status_code == 200
+    resp = app.get('/groups/256')
+    assert resp.status_code == 200 
+    assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
-    assert len(content) == 58
+    assert len(content) == 3
+    assert content["gid"] == "256"
 
     resp = app.get('/users/256/groups')
     assert resp.status_code == 200
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 3
-    assert content["name"] == "_testing_group"
+    assert content["gid"] == "256"
 
     # remove prev user n group just added
-    os.system("sed -i '' '/testing_passwd/d' {}".format(passwd_file))
-    os.system("sed -i '' '/testing_group/d' {}".format(group_file))
+    with open(passwd_file, "w+") as f:
+        f.write(passwd_cont)
+    with open(group_file, "w+") as f:
+        f.write(group_cont)
 
-    resp = app.get('/users')
-    assert resp.status_code == 200
+    resp = app.get('/users/256')
+    assert resp.status_code == 200 
     content = json.loads(resp.get_data(as_text=True))
-    assert len(content) == 18
+    assert len(content) == 0
+    assert content == []
 
-    resp = app.get('/groups')
-    assert resp.status_code == 200
+    resp = app.get('/groups/256')
+    assert resp.status_code == 200 
     content = json.loads(resp.get_data(as_text=True))
-    assert len(content) == 57
+    assert len(content) == 0
+    assert content == []
