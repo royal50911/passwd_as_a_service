@@ -1,4 +1,11 @@
-
+""" 
+Project: Password as a service 
+@Author: Hien Hoang
+################
+unit tests for main app
+Preps: flask, Flask-RESTful, pytest
+Usage: pytest -v test_restapy.py
+"""
 import os, sys
 currdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currdir)
