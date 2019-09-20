@@ -1,0 +1,28 @@
+##
+# User Database
+# 
+# Note that this file is consulted directly only when the system is running
+# in single-user mode.  At other times this information is provided by
+# Open Directory.
+#
+# See the opendirectoryd(8) man page for additional information about
+# Open Directory.
+##
+nobody:*:-2:-2:Unprivileged User:/var/empty:/usr/bin/false
+_dovenull:*:227:227:Dovecot Authentication:/var/empty:/usr/bin/false
+_netstatistics:*:228:228:Network Statistics Daemon:/var/empty:/usr/bin/false
+_avbdeviced:*:229:-2:Ethernet AVB Device Daemon:/var/empty:/usr/bin/false
+_krb_krbtgt:*:230:-2:Open Directory Kerberos Ticket Granting Ticket:/var/empty:/usr/bin/false
+_krb_kadmin:*:231:-2:Open Directory Kerberos Admin Service:/var/empty:/usr/bin/false
+_krb_changepw:*:232:-2:Open Directory Kerberos Change Password Service:/var/empty:/usr/bin/false
+_krb_kerberos:*:233:-2:Open Directory Kerberos:/var/empty:/usr/bin/false
+_krb_anonymous:*:234:-2:Open Directory Kerberos Anonymous:/var/empty:/usr/bin/false
+_assetcache:*:221:221:Asset Cache Service:/var/empty:/usr/bin/false
+_coremediaiod:*:236:236:Core Media IO Daemon:/var/empty:/usr/bin/false
+_launchservicesd:*:239:239:_launchservicesd:/var/empty:/usr/bin/false
+_hidd:*:261:261:HID Service User:/var/db/hidd:/usr/bin/false
+_cmiodalassistants:*:262:262:CoreMedia IO Assistants User:/var/db/cmiodalassistants:/usr/bin/false
+_analyticsd:*:263:263:Analytics Daemon:/var/db/analyticsd:/usr/bin/false
+_fpsd:*:265:265:FPS Daemon:/var/db/fpsd:/usr/bin/false
+_timed:*:266:266:Time Sync Daemon:/var/db/timed:/usr/bin/false
+_reportmemoryexception:*:269:269:ReportMemoryException:/var/db/reportmemoryexception:/usr/bin/false

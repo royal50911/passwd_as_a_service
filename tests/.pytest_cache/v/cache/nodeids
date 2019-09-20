@@ -1,0 +1,11 @@
+[
+  "test_restapi.py::test_home", 
+  "test_restapi.py::test_users", 
+  "test_restapi.py::test_users_by_query", 
+  "test_restapi.py::test_users_by_uid", 
+  "test_restapi.py::test_user_groups_by_uid", 
+  "test_restapi.py::test_groups", 
+  "test_restapi.py::test_groups_by_query", 
+  "test_restapi.py::test_groups_by_gid", 
+  "test_restapi.py::test_reflect_on_changes"
+]
