@@ -83,6 +83,21 @@ when query members are a subset of group members.
     {“name”: “docker”, “gid”: 1002, “members”: [“dwoodlins”]}
     ```
 
+## File Structure
+    .
+    ├── api_app.py              # main app file to run application
+    ├── config                  # config file contains all setup env config
+    ├── .gitignore              # git ignore files list
+    ├── Makefile                # Makefile for automate run/test command
+    ├── tests                   # test dir for unit tests
+    │   ├── group_mock          # sample file for group file
+    │   ├── passwd_mock         # sample file for passwd file
+    │   └── test_restapi.py     # main script to run unit tests
+    ├── utils                   # utilities for main app
+    │   ├── groupParser.py      # helper class to parse group file
+    │   ├── userParser.py       # helper class to parse passwd ile
+    └── README.md
+    
 ## Setup and Usage
 
 ##### Tech Required
@@ -146,6 +161,10 @@ If not, you can get
     ```
     $ python api_app.py -pf passwd_mock -gf group_file -c prod
     ```
+* Run app in background and output into log file
+    ```
+    $ nohup python3 api_app.py -c prod > output.log &
+    ```
 
 ##### Unit Tests
     ```
@@ -155,7 +174,7 @@ If not, you can get
 ##### Easy run/test with Makefile
 * Run app
     ```bash
-    $ make app
+    $ make app MODE=prod
     ```
 * Shutdown app
     ```bash
@@ -165,18 +184,3 @@ If not, you can get
     ```bash
     $ make test
     ```
-
-## File Structure
-    .
-    ├── api_app.py              # main app file to run application
-    ├── config                  # config file contains all setup env config
-    ├── .gitignore              # git ignore files list
-    ├── Makefile                # Makefile for automate run/test command
-    ├── tests                   # test dir for unit tests
-    │   ├── group_mock          # sample file for group file
-    │   ├── passwd_mock         # sample file for passwd file
-    │   └── test_restapi.py     # main script to run unit tests
-    ├── utils                   # utilities for main app
-    │   ├── groupParser.py      # helper class to parse group file
-    │   ├── userParser.py       # helper class to parse passwd ile
-    └── README.md
