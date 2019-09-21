@@ -113,23 +113,23 @@ If not, you can get
     $ source venv/bin/activate
     ```
 ##### Clone the repo
-    ```bash
+    ```
     $ git clone https://github.com/royal50911/passwd_as_a_service.git
     $ cd passwd_as_a_service
     ```
 
 ##### Install dependencies
-    ```bash
+    ```
     $ pip install -r requirements.txt
     ```
 
 ##### Run the app
-    ```bash
+    ```
     $ python api_app.py
     ```
 
 ##### Unit Tests
-    ```bash
+    ```
     $ pytest -v tests/test_restapi.py  
     ```
 
