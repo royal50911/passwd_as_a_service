@@ -33,10 +33,8 @@ Only exact matches need to be supported.
 * Example Query: ​GET /users/query?shell=%2Fbin%2Ffalse
 * Example Response:
     ```bash
-    [
-    {“name”: “dwoodlins”, “uid”: 1001, “gid”: 1001, “comment”: “”, 
-    “home”: “/home/dwoodlins”, “shell”: “/bin/false”}
-    ]
+    [{“name”: “dwoodlins”, “uid”: 1001, “gid”: 1001, “comment”: “”, 
+    “home”: “/home/dwoodlins”, “shell”: “/bin/false”}]
     ```
 
 ##### GET /users/<uid>
@@ -89,7 +87,7 @@ when query members are a subset of group members.
 
 ##### Tech Required
 * **[Python3](https://www.python.org/downloads/)** 
-* **[Flask](flask.pocoo.org/)** - A microframework for Python based on Werkzeug, Jinja 2 
+* **[Flask](https://pypi.org/project/Flask/)** - A web microframework for Python 
 * **[Virtualenv](https://virtualenv.pypa.io/en/stable/)** - Python virtual environments
 * **[Pytest](https://pypi.org/project/pytest/)** - Python unit tests framework
 * **[pip](https://pypi.org/project/pip/)** - Package installer for Python
