@@ -122,8 +122,29 @@ If not, you can get
     ```
 
 ##### Run the app
+* App Usage:
+    ```
+    usage: python api_app.py [-h] [-pf PASSWD_FILE] [-gf GROUP_FILE]
+                         [-c CONFIG_MODE]
+    optional arguments:
+    -h, --help            show this help message and exit
+    -pf PASSWD_FILE, --passfile PASSWD_FILE
+                            path to password file if specified, 
+                            sys path by default in config.py
+    -gf GROUP_FILE, --groupfile GROUP_FILE
+                            path to group file if specified, 
+                            sys path by default in config.py
+    -c CONFIG_MODE, --config CONFIG_MODE
+                            environment config: [dev, prod, testing]; dev by
+                            default
+    ```
+* Simple run
     ```
     $ python api_app.py
+    ```
+* Run app with command line to override passwd and group files as well as mode
+    ```
+    $ python api_app.py -pf passwd_mock -gf group_file -c prod
     ```
 
 ##### Unit Tests
@@ -136,12 +157,10 @@ If not, you can get
     ```bash
     $ make app
     ```
-
 * Shutdown app
     ```bash
     $ make kill_app
     ```
-
 * Run unit tests
     ```bash
     $ make test
