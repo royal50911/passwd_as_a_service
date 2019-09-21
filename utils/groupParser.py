@@ -36,12 +36,12 @@ class Groups():
             return groups
         
     def getGroupByGID(self, gid):
-        """Function to get groups given gid"""
+        """Function to get a group given gid"""
         groups = self.getGroups()
         for group in groups:
             if group["gid"] ==gid:
                 return group
-        return []
+        return None
 
     def getGroupByQuery(self, query):
         """Function to get groups given query fields"""

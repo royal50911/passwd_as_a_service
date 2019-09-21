@@ -54,17 +54,21 @@ def create_app(passwd_file, group_file):
     @app.route('/users/<uid>', methods = ['GET'])
     def api_user_by_uid(uid):
         res = userObj.getUserByUID(uid)
-        return jsonify(res)
+        if res:
+            return jsonify(res)
+        else:
+            return not_found()
 
     @app.route('/users/<uid>/groups/')
     @app.route('/users/<uid>/groups', methods = ['GET'])
     def api_group_of_user(uid):
+        groups = []
         res = userObj.getUserByUID(uid)
-        if res:
-            user = groupObj.getGroupByGID(res["gid"])
-            return jsonify(user)
-        else:
-            return jsonify(res)
+        all_groups = groupObj.getGroups()
+        for group in all_groups:
+            if res and group["gid"] == res["gid"]:
+                groups.append(group)
+        return jsonify(groups)
 
     @app.route('/groups/')
     @app.route('/groups', methods = ['GET'])
@@ -82,7 +86,10 @@ def create_app(passwd_file, group_file):
     @app.route('/groups/<gid>', methods = ['GET'])
     def api_group_by_gid(gid):
         res = groupObj.getGroupByGID(gid)
-        return jsonify(res)
+        if res:
+            return jsonify(res)
+        else:
+            return not_found()
 
     @app.errorhandler(404)
     def not_found(error=None):

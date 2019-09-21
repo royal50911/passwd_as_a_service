@@ -66,17 +66,15 @@ def test_users_by_uid():
 
     # non existing user
     resp = app.get('/users/3333')
-    assert resp.status_code == 200 
-    content = json.loads(resp.get_data(as_text=True))
-    assert content == []
+    assert resp.status_code == 404
 
 def test_user_groups_by_uid():
     resp = app.get('/users/221/groups')
     assert resp.status_code == 200 
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
-    assert len(content) == 3
-    assert content["gid"] == "221"
+    assert len(content) == 1
+    assert content[0]["gid"] == "221"
 
     # user with no groups
     resp = app.get('/users/331/groups')
@@ -117,11 +115,7 @@ def test_groups_by_gid():
 
     # non existing group
     resp = app.get('/groups/1234')
-    assert resp.status_code == 200
-    content = json.loads(resp.get_data(as_text=True))
-    assert len(content) == 0
-    assert content == []
-
+    assert resp.status_code == 404
 
 def test_reflect_on_changes():
     # add new user and group
@@ -154,8 +148,8 @@ def test_reflect_on_changes():
     resp = app.get('/users/256/groups')
     assert resp.status_code == 200
     content = json.loads(resp.get_data(as_text=True))
-    assert len(content) == 3
-    assert content["gid"] == "256"
+    assert len(content) == 1
+    assert content[0]["gid"] == "256"
 
     # remove prev user n group just added
     with open(passwd_file, "w+") as f:
@@ -164,13 +158,7 @@ def test_reflect_on_changes():
         f.write(group_cont)
 
     resp = app.get('/users/256')
-    assert resp.status_code == 200 
-    content = json.loads(resp.get_data(as_text=True))
-    assert len(content) == 0
-    assert content == []
+    assert resp.status_code == 404
 
     resp = app.get('/groups/256')
-    assert resp.status_code == 200 
-    content = json.loads(resp.get_data(as_text=True))
-    assert len(content) == 0
-    assert content == []
+    assert resp.status_code == 404

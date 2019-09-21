@@ -37,12 +37,12 @@ class Users():
             return users
         
     def getUserByUID(self, uid):
-        """Function to get users given gid"""
+        """Function to get a user given gid"""
         users = self.getUsers()
         for user in users:
             if user["uid"] == uid:
                 return user
-        return []
+        return None
 
     def getUserByQuery(self, query):
         """Function to get users given query fields"""
