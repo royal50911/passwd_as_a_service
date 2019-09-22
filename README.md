@@ -106,6 +106,7 @@ when query members are a subset of group members.
 * **[Virtualenv](https://virtualenv.pypa.io/en/stable/)** - Python virtual environments
 * **[Pytest](https://pypi.org/project/pytest/)** - Python unit tests framework
 * **[pip](https://pypi.org/project/pip/)** - Package installer for Python
+* **[gunicorn](https://pypi.org/project/gunicorn/)** - A Python WSGI HTTP Server for UNIX
 
 ##### Environment setup
 * First ensure you have python3 and pip need to be installed first 
@@ -139,32 +140,28 @@ If not, you can get
 ##### Run the app
 * App Usage:
     ```
-    usage: python api_app.py [-h] [-pf PASSWD_FILE] [-gf GROUP_FILE]
-                         [-c CONFIG_MODE]
-    optional arguments:
-    -h, --help            show this help message and exit
-    -pf PASSWD_FILE, --passfile PASSWD_FILE
-                            path to password file if specified, 
-                            sys path by default in config.py
-    -gf GROUP_FILE, --groupfile GROUP_FILE
-                            path to group file if specified, 
-                            sys path by default in config.py
-    -c CONFIG_MODE, --config CONFIG_MODE
-                            environment config: [dev, prod, testing]; dev by
-                            default
+    For testing: python api_app.py
+    For deployment: gunicorn api_app:app & --access-logfile <path to log file> 
     ```
 * Simple run
     ```
     $ python api_app.py
     ```
-* Run app with command line to override passwd and group files as well as mode
-    ```
-    $ python api_app.py -pf passwd_mock -gf group_file -c prod
-    ```
 * Run app in background and output into log file
     ```
-    $ nohup python3 api_app.py -c prod > output.log &
+    $ gunicorn api_app:app & --access-logfile <path to log file> &
     ```
+* Kill app running in background
+    ```
+    $ pkill -f gunicorn
+    ```
+
+##### Enviroment configuration vars
+* All config vars are in config.py. To update or run different configure files,
+update it in config.py
+- MODE: running mode for flask , dev by default
+- GROUP_FILE: path to group file, file sys "/etc/group" by default
+- PASSWD_FILE: path to passwd file, file sys "/etc/passwd" by default
 
 ##### Unit Tests
     ```
@@ -174,7 +171,7 @@ If not, you can get
 ##### Easy run/test with Makefile
 * Run app
     ```bash
-    $ make app MODE=prod
+    $ make app
     ```
 * Shutdown app
     ```bash

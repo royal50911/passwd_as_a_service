@@ -6,18 +6,16 @@ Project: Password as a service
 configuration file for main app
 """
 
-import os
-basedir = os.path.abspath(os.path.dirname(__file__))
 modes = {"dev":"DevelopmentConfig" ,
         "prod":"ProductionConfig",
         "testing":"TestingConfig"}
-host = '0.0.0.0'
-port = 5000
+MODE = modes["dev"]
+HOST = '0.0.0.0'
+PORT = 8000
+GROUP_FILE = "/etc/group"
+PASSWD_FILE = "/etc/passwd"
 
-class SysFiles():
-    GROUP_FILE = "/etc/group"
-    PASSWD_FILE = "/etc/passwd"
-    
+# Class config modes for flask env    
 class Config(object):
     DEBUG = False
     TESTING = False

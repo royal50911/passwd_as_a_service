@@ -10,16 +10,18 @@ Usage: pytest -v test_restapy.py
 import os, sys
 currdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currdir)
+utilsdir = os.path.join(currdir,"utils/")
 sys.path.append(parentdir)
-
-import api_app
-import pytest
-import json
+sys.path.append(utilsdir)
+import api_app, userParser, groupParser
+import pytest, json
 
 passwd_file = os.path.join(currdir,"passwd_mock")
 group_file = os.path.join(currdir,"group_mock")
 
-app = api_app.create_app(passwd_file,group_file )
+app = api_app.app
+app.config["userObj"] = userParser.Users(passwd_file)
+app.config["groupObj"] = groupParser.Groups(group_file)
 app.testing = True
 app = app.test_client()
 
