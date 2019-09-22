@@ -83,6 +83,9 @@ when query members are a subset of group members.
     {“name”: “docker”, “gid”: 1002, “members”: [“dwoodlins”]}
     ```
 
+## Example of the app deployed on heroku
+* **[passwd-as-a-service](https://passwd-as-a-service.herokuapp.com/users)**
+
 ## File Structure
     .
     ├── api_app.py              # main app file to run application
