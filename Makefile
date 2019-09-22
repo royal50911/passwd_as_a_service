@@ -19,7 +19,7 @@ test:
 
 app:
 	@echo 'Making API App. It will be running in background ...'
-	gunicorn api_app:app --access-logfile output.log &
+	gunicorn api_app:app -b 0.0.0.0:8000 --access-logfile output.log &
 
 kill_app:
 	pkill -f gunicorn

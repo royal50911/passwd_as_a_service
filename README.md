@@ -144,7 +144,7 @@ If not, you can get
 * App Usage:
     ```
     For testing: python api_app.py
-    For deployment: gunicorn api_app:app
+    For deployment: gunicorn api_app:app -b 0.0.0.0:8000
     ```
 * Simple run
     ```
@@ -152,7 +152,7 @@ If not, you can get
     ```
 * Run app in background and output into log file
     ```
-    $ gunicorn api_app:app --access-logfile <path to log file> &
+    $ gunicorn api_app:app -b 0.0.0.0:8000 --access-logfile <path to log file> &
     ```
 * Kill app running in background
     ```
