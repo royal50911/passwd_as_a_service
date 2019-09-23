@@ -81,7 +81,7 @@ when query members are a subset of group members.
 ##### <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SW-logo-clr.png" height="40">
 ##### SWAGGER UI Documentation and Try Out [here](https://app.swaggerhub.com/apis-docs/royal50911/passwd-as-a-service/1.0)
 
-##### <img src="https://cdn.freebiesupply.com/logos/thumbs/2x/heroku-1-logo.png" height="40">
+##### <img src="https://www.pngkey.com/png/detail/235-2355070_heroku-heroku-logo.png" height="60">
 ##### Example of the app deployed on heroku
 * **[passwd-as-a-service](https://passwd-as-a-service.herokuapp.com/users)**
 
