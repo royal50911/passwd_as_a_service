@@ -1,5 +1,6 @@
 # passwd_as_a_service
-A simple rest api app to expose the user and group information on a UNIX-like system that is usually locked away in the UNIX /etc/passwd and /etc/groups files
+A simple rest api app to expose the user and group information on a UNIX-like 
+system that is usually locked away in the UNIX /etc/passwd and /etc/groups files
 
 ## Highlights
 - Exposes passwd file system
@@ -9,9 +10,13 @@ A simple rest api app to expose the user and group information on a UNIX-like sy
 - Search for groups of a user by uid
 - Get all groups in systems
 - Search for a group by gid
+- Search a group by query fields
+- Search a user by query fields
 
 ## REST api summary
 
+##### ```GET /```
+* Return welcome message on homepage. ```Welcome To My Rest API App```
 ##### ```GET /users```
 * Return a list of all users on the system, as defined in the /etc/passwd file.
 * Example Response:
@@ -23,7 +28,8 @@ A simple rest api app to expose the user and group information on a UNIX-like sy
     ```
 ##### ```GET /users/query[?name=<nq>][&uid=<uq>][&gid=<gq>][&comment=<cq>][&home=< hq>][&shell=<sq>]```
 * Return a list of users matching all of the specified query fields. 
-The bracket notation indicates that any of the following query parameters may be supplied:
+Return empty list if query fields not matching.
+* The bracket notation indicates that any of the following query parameters may be supplied:
 - name
 - uid
 - gid
@@ -45,7 +51,8 @@ Only exact matches need to be supported.
     “home”: “/home/dwoodlins”, “shell”: “/bin/false”}
     ```
 ##### ```GET /users/<uid>/groups```
-* Return all the groups for a given user by ```<uid>```.
+* Return all the groups for a given user by ```<uid>```. 
+Return empty list if not user found or user in no group
 * Example Response:
     ```bash
     [{“name”: “docker”, “gid”: 1002, “members”: [“dwoodlins”]}]
@@ -60,7 +67,8 @@ Only exact matches need to be supported.
     ```
 ##### ```GET /groups/query[?name=<nq>][&gid=<gq>][&member=<mq1>[&member=<mq2>][&. ..]]```
 * Return a list of groups matching all of the specified query fields. 
-The bracket notation indicates that any of the following query parameters may be supplied:
+Return empty list if query fields not matching.
+* The bracket notation indicates that any of the following query parameters may be supplied:
 - name
 - gid
 - member (repeated)
@@ -81,11 +89,11 @@ when query members are a subset of group members.
 ##### <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SW-logo-clr.png" height="40">
 ##### SWAGGER UI Documentation and Try Out [here](https://app.swaggerhub.com/apis-docs/royal50911/passwd-as-a-service/1.0)
 
-##### <img src="https://www.pngkey.com/png/detail/235-2355070_heroku-heroku-logo.png" height="60">
+##### <img src="https://www.pngkey.com/png/detail/235-2355070_heroku-heroku-logo.png" height="40">
 ##### Example of the app deployed on heroku
 * **[passwd-as-a-service](https://passwd-as-a-service.herokuapp.com/users)**
 
-## File Structure
+## Folder Structure
     .
     ├── api_app.py              # main app file to run application
     ├── config.py               # config file contains all setup env config
@@ -114,8 +122,7 @@ when query members are a subset of group members.
 
 ##### Environment setup
 * First ensure you have python3 and pip need to be installed first 
-globally installed in your computer.
-If not, you can get
+globally installed in your computer. If not, you can get from links below:
 * python3 [here](https://www.python.org). 
 * pip [here](https://pypi.org/project/pip/)
 
@@ -153,6 +160,10 @@ If not, you can get
     ```
     $ gunicorn api_app:app -b 0.0.0.0:8000 --access-logfile <path to log file> &
     ```
+* Once the app is up and running, You should see "Welcome To My Rest API App." 
+on the home page by one of the following links:
+- Localhost: ```http://localhost:<port>```. port is 8000 by default and can be set in config.py
+- Server IP only if running on a server: ```http://<host ip address>:<port>```
 * Kill app running in background
     ```
     $ pkill -f gunicorn
@@ -160,6 +171,7 @@ If not, you can get
 ##### Enviroment configuration vars
 * All config vars are in config.py. To update or run different configure files,
 update it in config.py
+* config vars that the app needs:
 - MODE: running mode for flask , dev by default
 - GROUP_FILE: path to group file, file sys "/etc/group" by default
 - PASSWD_FILE: path to passwd file, file sys "/etc/passwd" by default
