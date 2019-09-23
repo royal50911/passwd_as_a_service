@@ -92,7 +92,7 @@ def test_groups():
     assert len(content) == 57
 
 def test_groups_by_query():
-    resp = app.get('/groups/query?members=_analyticsd&members=_networkd')
+    resp = app.get('/groups/query?member=_analyticsd&member=_networkd')
     assert resp.status_code == 200
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))

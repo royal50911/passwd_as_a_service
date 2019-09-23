@@ -50,14 +50,13 @@ class Groups():
             i = len(groups)-1
             tmp = []
             while i >=0:
-                if k == "members":
-                    if k in groups[i]:
-                        match = True
-                        for val in vals:
-                            if val not in groups[i][k]:
-                                match = False
-                                break
-                        if match : tmp.append(groups[i])
+                if k == "member":
+                    match = True
+                    for val in vals:
+                        if val not in groups[i]["members"]:
+                            match = False
+                            break
+                    if match : tmp.append(groups[i])
                 else:
                     if k in groups[i] and groups[i][k] == ''.join(vals):
                         tmp.append(groups[i])
