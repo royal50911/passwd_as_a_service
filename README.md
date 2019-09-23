@@ -162,8 +162,9 @@ globally installed in your computer. If not, you can get from links below:
     ```
 * Once the app is up and running, You should see "Welcome To My Rest API App." 
 on the home page by one of the following links:
-- Localhost: ```http://localhost:<port>```. port is 8000 by default and can be set in config.py
+- Localhost: ```http://localhost:<port>```
 - Server IP only if running on a server: ```http://<host ip address>:<port>```
+- Port is 8000 by default and can be set in config.py
 * Kill app running in background
     ```
     $ pkill -f gunicorn
