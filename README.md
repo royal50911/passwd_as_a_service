@@ -38,14 +38,14 @@ Only exact matches need to be supported.
     “home”: “/home/dwoodlins”, “shell”: “/bin/false”}]
     ```
 ##### ```GET /users/<uid>```
-* Return a single user with <uid>. Return 404 if <uid> is not found.
+* Return a single user with ```<uid>```. Return 404 if ```<uid>``` is not found.
 * Example Response:
     ```bash
     {“name”: “dwoodlins”, “uid”: 1001, “gid”: 1001, “comment”: “”, 
     “home”: “/home/dwoodlins”, “shell”: “/bin/false”}
     ```
-##### ```GET /users/{uid}/groups```
-* Return all the groups for a given user.
+##### ```GET /users/<uid>/groups```
+* Return all the groups for a given user by ```<uid>```.
 * Example Response:
     ```bash
     [{“name”: “docker”, “gid”: 1002, “members”: [“dwoodlins”]}]
@@ -73,7 +73,7 @@ when query members are a subset of group members.
     [{“name”: “_analyticsusers”, “gid”: 250, “members”: [“_analyticsd’,”_networkd”,”_timed”]}]
     ```
 ##### ```GET /groups/<gid>```
-* Return a single group with <gid>. Return 404 if <gid> is not found.
+* Return a single group with ```<gid>```. Return 404 if ```<gid>``` is not found.
 * Example Response:
     ``` bash
     {“name”: “docker”, “gid”: 1002, “members”: [“dwoodlins”]}
@@ -135,12 +135,10 @@ If not, you can get
     $ git clone https://github.com/royal50911/passwd_as_a_service.git
     $ cd passwd_as_a_service
     ```
-
 ##### Install dependencies
     ```
     $ pip install -r requirements.txt
     ```
-
 ##### Run the app
 * App Usage:
     ```
@@ -159,19 +157,16 @@ If not, you can get
     ```
     $ pkill -f gunicorn
     ```
-
 ##### Enviroment configuration vars
 * All config vars are in config.py. To update or run different configure files,
 update it in config.py
 - MODE: running mode for flask , dev by default
 - GROUP_FILE: path to group file, file sys "/etc/group" by default
 - PASSWD_FILE: path to passwd file, file sys "/etc/passwd" by default
-
 ##### Unit Tests
     ```
     $ pytest -v tests/test_restapi.py  
     ```
-
 ##### Easy run/test with Makefile
 * Run app
     ```bash
