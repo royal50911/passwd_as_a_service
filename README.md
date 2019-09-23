@@ -11,7 +11,8 @@ A simple rest api app to expose the user and group information on a UNIX-like sy
 - Search for a group by gid
 
 ## REST api summary
-##### GET /users
+
+##### ```GET /users```
 * Return a list of all users on the system, as defined in the /etc/passwd file.
 * Example Response:
     ```bash
@@ -20,7 +21,7 @@ A simple rest api app to expose the user and group information on a UNIX-like sy
     {“name”: “dwoodlins”, “uid”: 1001, “gid”: 1001, “comment”: “”, “home”:
     “/home/dwoodlins”, “shell”: “/bin/false”} ]
     ```
-##### GET /users/query[?name=<nq>][&uid=<uq>][&gid=<gq>][&comment=<cq>][&home=< hq>][&shell=<sq>]
+##### ```GET /users/query[?name=<nq>][&uid=<uq>][&gid=<gq>][&comment=<cq>][&home=< hq>][&shell=<sq>]```
 * Return a list of users matching all of the specified query fields. 
 The bracket notation indicates that any of the following query parameters may be supplied:
 - name
@@ -36,23 +37,20 @@ Only exact matches need to be supported.
     [{“name”: “dwoodlins”, “uid”: 1001, “gid”: 1001, “comment”: “”, 
     “home”: “/home/dwoodlins”, “shell”: “/bin/false”}]
     ```
-
-##### GET /users/<uid>
+##### ```GET /users/<uid>```
 * Return a single user with <uid>. Return 404 if <uid> is not found.
 * Example Response:
     ```bash
     {“name”: “dwoodlins”, “uid”: 1001, “gid”: 1001, “comment”: “”, 
     “home”: “/home/dwoodlins”, “shell”: “/bin/false”}
     ```
-
-##### GET /users/<uid>/groups
+##### ```GET /users/{uid}/groups```
 * Return all the groups for a given user.
 * Example Response:
     ```bash
     [{“name”: “docker”, “gid”: 1002, “members”: [“dwoodlins”]}]
     ```
-
-##### GET /groups
+##### ```GET /groups```
 * Return a list of all groups on the system, a defined by /etc/group.
 * Example Response:
     ```bash
@@ -60,8 +58,7 @@ Only exact matches need to be supported.
     [“_analyticsd’,”_networkd”,”_timed”]},
     {“name”: “docker”, “gid”: 1002, “members”: []}]
     ```
-
-##### GET /groups/query[?name=<nq>][&gid=<gq>][&member=<mq1>[&member=<mq2>][&. ..]]
+##### ```GET /groups/query[?name=<nq>][&gid=<gq>][&member=<mq1>[&member=<mq2>][&. ..]]```
 * Return a list of groups matching all of the specified query fields. 
 The bracket notation indicates that any of the following query parameters may be supplied:
 - name
@@ -75,15 +72,17 @@ when query members are a subset of group members.
     ``` bash
     [{“name”: “_analyticsusers”, “gid”: 250, “members”: [“_analyticsd’,”_networkd”,”_timed”]}]
     ```
-
-##### GET /groups/<gid>
+##### ```GET /groups/<gid>```
 * Return a single group with <gid>. Return 404 if <gid> is not found.
 * Example Response:
     ``` bash
     {“name”: “docker”, “gid”: 1002, “members”: [“dwoodlins”]}
     ```
+##### <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SW-logo-clr.png" height="40">
+##### SWAGGER UI Documentation and Try Out [here](https://app.swaggerhub.com/apis-docs/royal50911/passwd-as-a-service/1.0)
 
-## Example of the app deployed on heroku
+##### <img src="https://cdn.freebiesupply.com/logos/thumbs/2x/heroku-1-logo.png" height="40">
+##### Example of the app deployed on heroku
 * **[passwd-as-a-service](https://passwd-as-a-service.herokuapp.com/users)**
 
 ## File Structure
