@@ -13,7 +13,7 @@ Usage:
 
 """
 from flask import Flask, url_for, request, jsonify
-import sys, os, argparse
+import sys, os
 import config
 basedir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(os.path.join(basedir,"utils/"))
