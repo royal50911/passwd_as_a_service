@@ -29,7 +29,7 @@ def test_home():
     resp = app.get('/')
     content = resp.get_data(as_text=True)
     assert resp.status_code == 200 
-    assert content ==  "Welcome To My Rest API App"
+    assert content ==  "Welcome To Passwd As A Service Rest API"
 
 def test_not_found_page():
     resp = app.get('/no_page')

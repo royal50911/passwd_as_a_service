@@ -16,7 +16,7 @@ system that is usually locked away in the UNIX /etc/passwd and /etc/groups files
 ## REST api summary
 
 ##### ```GET /```
-* Return welcome message on homepage. ```Welcome To My Rest API App```
+* Return welcome message on root page: ```Welcome To Passwd As A Service Rest API```
 ##### ```GET /users```
 * Return a list of all users on the system, as defined in the /etc/passwd file.
 * Example Response:
@@ -160,7 +160,7 @@ globally installed in your computer. If not, you can get from links below:
     ```
     $ gunicorn api_app:app -b 0.0.0.0:8000 --access-logfile <path to log file> &
     ```
-* Once the app is up and running, You should see "Welcome To My Rest API App." 
+* Once the app is up and running, You should see "Welcome To Passwd As A Service Rest API" 
 on the home page by one of the following links:
 - Localhost: ```http://localhost:<port>```
 - Server IP only if running on a server: ```http://<host ip address>:<port>```
