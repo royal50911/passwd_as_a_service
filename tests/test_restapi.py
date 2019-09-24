@@ -64,7 +64,7 @@ def test_users_by_uid():
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 6
-    assert content["uid"] == "239"
+    assert content["uid"] == 239
 
     # non existing user
     resp = app.get('/users/3333')
@@ -76,7 +76,7 @@ def test_user_groups_by_uid():
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 1
-    assert content[0]["gid"] == "221"
+    assert content[0]["gid"] == 221
 
     # user with no groups
     resp = app.get('/users/331/groups')
@@ -113,7 +113,7 @@ def test_groups_by_gid():
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 3
-    assert content["gid"] == "13"
+    assert content["gid"] == 13
 
     # non existing group
     resp = app.get('/groups/1234')
@@ -138,20 +138,20 @@ def test_reflect_on_changes():
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 6
-    assert content["uid"] == "256"
+    assert content["uid"] == 256
 
     resp = app.get('/groups/256')
     assert resp.status_code == 200 
     assert resp.content_type == 'application/json'
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 3
-    assert content["gid"] == "256"
+    assert content["gid"] == 256
 
     resp = app.get('/users/256/groups')
     assert resp.status_code == 200
     content = json.loads(resp.get_data(as_text=True))
     assert len(content) == 1
-    assert content[0]["gid"] == "256"
+    assert content[0]["gid"] == 256
 
     # remove prev user n group just added
     with open(passwd_file, "w+") as f:

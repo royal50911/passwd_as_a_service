@@ -19,6 +19,8 @@ class Users():
                     line = line.strip()
                     if line and line[0] != "#":
                         name,_,uid,gid,comment,home,shell = line.strip().split(":")
+                        uid = int(uid)
+                        gid = int(gid)
                         user = {
                             "name" : name,
                             "uid" : uid, 
@@ -40,7 +42,7 @@ class Users():
         """Function to get a user given gid"""
         users = self.getUsers()
         for user in users:
-            if user["uid"] == uid:
+            if str(user["uid"]) == uid:
                 return user
         return None
 
@@ -51,7 +53,8 @@ class Users():
             i = len(users)-1
             tmp = []
             while i >=0:
-                if k in users[i] and users[i][k] == ''.join(vals) :
+                vals = list(map(lambda x: str(x), vals))
+                if k in users[i] and str(users[i][k]) == ''.join(vals) :
                     tmp.append(users[i])
                 i-=1
             users = tmp[:]

@@ -19,6 +19,7 @@ class Groups():
                     line = line.strip()
                     if line and line[0] != "#":
                         name,_,gid,members = line.split(":")
+                        gid = int(gid)
                         member = []
                         if members.strip():
                             member += list(set(members.split(",")))
@@ -39,7 +40,7 @@ class Groups():
         """Function to get a group given gid"""
         groups = self.getGroups()
         for group in groups:
-            if group["gid"] ==gid:
+            if str(group["gid"]) == gid:
                 return group
         return None
 
@@ -58,7 +59,8 @@ class Groups():
                             break
                     if match : tmp.append(groups[i])
                 else:
-                    if k in groups[i] and groups[i][k] == ''.join(vals):
+                    vals = list(map(lambda x: str(x),vals))
+                    if k in groups[i] and str(groups[i][k]) == ''.join(vals):
                         tmp.append(groups[i])
                 i-=1
             groups = tmp[:]
