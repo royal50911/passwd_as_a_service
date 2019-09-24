@@ -10,6 +10,14 @@ class Users():
     def __init__(self, users_file):
         self._file = os.path.realpath(users_file)
 
+    def getString(self, s):
+        """Function convert string to int if applicable"""
+        try: 
+            num = int(s)
+            return str(num)
+        except (ValueError):
+            return s
+
     def getUsers(self):
         """Function to parse passwd file input and return all users"""
         users = []
@@ -42,7 +50,7 @@ class Users():
         """Function to get a user given gid"""
         users = self.getUsers()
         for user in users:
-            if str(user["uid"]) == uid:
+            if str(user["uid"]) == self.getString(uid):
                 return user
         return None
 
@@ -53,7 +61,8 @@ class Users():
             i = len(users)-1
             tmp = []
             while i >=0:
-                vals = list(map(lambda x: str(x), vals))
+                if k == "uid" or k == "gid":
+                    vals = list(map(lambda x: self.getString(x), vals))
                 if k in users[i] and str(users[i][k]) == ''.join(vals) :
                     tmp.append(users[i])
                 i-=1

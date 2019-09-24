@@ -10,6 +10,14 @@ class Groups():
     def __init__(self, groups_file):
         self._file = os.path.realpath(groups_file)
 
+    def getString(self, s):
+        """Function convert string to int if applicable"""
+        try: 
+            num = int(s)
+            return str(num)
+        except (ValueError):
+            return s
+
     def getGroups(self):
         """Function to parse group file input and return all groups"""
         groups = []
@@ -40,7 +48,7 @@ class Groups():
         """Function to get a group given gid"""
         groups = self.getGroups()
         for group in groups:
-            if str(group["gid"]) == gid:
+            if str(group["gid"]) == self.getString(gid):
                 return group
         return None
 
@@ -59,7 +67,8 @@ class Groups():
                             break
                     if match : tmp.append(groups[i])
                 else:
-                    vals = list(map(lambda x: str(x),vals))
+                    if k == "gid":
+                        vals = list(map(lambda x: self.getString(x),vals))
                     if k in groups[i] and str(groups[i][k]) == ''.join(vals):
                         tmp.append(groups[i])
                 i-=1

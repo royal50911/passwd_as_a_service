@@ -51,6 +51,13 @@ def test_users_by_query():
     assert len(content) == 12
     assert content[0]["home"] == "/var/empty"
 
+    resp = app.get('/users/query?uid=0239')
+    assert resp.status_code == 200
+    assert resp.content_type == 'application/json'
+    content = json.loads(resp.get_data(as_text=True))
+    assert len(content) == 1
+    assert content[0]["uid"] == 239
+
     # invalid field or non existing user
     resp = app.get('/users/query?home=%2Fvar')
     assert resp.status_code == 200
@@ -59,6 +66,7 @@ def test_users_by_query():
     assert content == []
 
 def test_users_by_uid():
+    ## exisitng user
     resp = app.get('/users/239')
     assert resp.status_code == 200 
     assert resp.content_type == 'application/json'
@@ -66,8 +74,14 @@ def test_users_by_uid():
     assert len(content) == 6
     assert content["uid"] == 239
 
+    resp = app.get('/users/0239')
+    assert resp.status_code == 200 
+
+    resp = app.get('/users/+239')
+    assert resp.status_code == 200
+
     # non existing user
-    resp = app.get('/users/3333')
+    resp = app.get('/users/2390')
     assert resp.status_code == 404
 
 def test_user_groups_by_uid():
@@ -78,8 +92,14 @@ def test_user_groups_by_uid():
     assert len(content) == 1
     assert content[0]["gid"] == 221
 
+    resp = app.get('/users/0221/groups')
+    assert resp.status_code == 200 
+
+    resp = app.get('/users/+221/groups')
+    assert resp.status_code == 200
+
     # user with no groups
-    resp = app.get('/users/331/groups')
+    resp = app.get('/users/2210/groups')
     assert resp.status_code == 200 
     content = json.loads(resp.get_data(as_text=True))
     assert content == []
@@ -100,6 +120,13 @@ def test_groups_by_query():
     assert ("_analyticsd" in content[0]["members"]) == True
     assert ("_networkd" in content[0]["members"]) == True
 
+    resp = app.get('/groups/query?gid=013')
+    assert resp.status_code == 200 
+    assert resp.content_type == 'application/json'
+    content = json.loads(resp.get_data(as_text=True))
+    assert len(content) == 1
+    assert content[0]["gid"] == 13
+
     # invalid field or non existing group
     resp = app.get('/groups/query?members=_testing')
     assert resp.status_code == 200 
@@ -115,8 +142,14 @@ def test_groups_by_gid():
     assert len(content) == 3
     assert content["gid"] == 13
 
+    resp = app.get('/groups/013')
+    assert resp.status_code == 200 
+
+    resp = app.get('/groups/+13')
+    assert resp.status_code == 200 
+
     # non existing group
-    resp = app.get('/groups/1234')
+    resp = app.get('/groups/1324')
     assert resp.status_code == 404
 
 def test_reflect_on_changes():
@@ -159,6 +192,7 @@ def test_reflect_on_changes():
     with open(group_file, "w+") as f:
         f.write(group_cont)
 
+    # test if prev user and group has been removed
     resp = app.get('/users/256')
     assert resp.status_code == 404
 
