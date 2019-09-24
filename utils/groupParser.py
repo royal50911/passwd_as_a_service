@@ -21,7 +21,7 @@ class Groups():
                         name,_,gid,members = line.split(":")
                         member = []
                         if members.strip():
-                            member += members.split(",")
+                            member += list(set(members.split(",")))
                         group = {
                             "name" : name,
                             "gid" : gid,
