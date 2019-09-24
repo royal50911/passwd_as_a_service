@@ -107,7 +107,7 @@ when query members are a subset of group members.
     │   └── test_restapi.py     # main script to run unit tests
     ├── utils                   # utilities for main app
     │   ├── groupParser.py      # helper class to parse group file
-    │   ├── userParser.py       # helper class to parse passwd ile
+    │   ├── userParser.py       # helper class to parse passwd file
     └── README.md               # Docs for github
     
 ## Setup and Usage
@@ -161,7 +161,7 @@ globally installed in your computer. If not, you can get from links below:
     $ gunicorn api_app:app -b 0.0.0.0:8000 --access-logfile <path to log file> &
     ```
 * Once the app is up and running, You should see "Welcome To Passwd As A Service Rest API" 
-on the home page by one of the following links:
+on the root page ```/``` by opening one of the following links:
 - Localhost: ```http://localhost:<port>```
 - Server IP only if running on a server: ```http://<host ip address>:<port>```
 - Port is 8000 by default and can be set in config.py
@@ -170,7 +170,7 @@ on the home page by one of the following links:
     $ pkill -f gunicorn
     ```
 ##### Enviroment configuration vars
-* All config vars are in config.py. To update or run different configure files,
+* All config vars are in config.py. To update or run different configuration,
 update it in config.py
 * config vars that the app needs:
 - MODE: running mode for flask , dev by default
