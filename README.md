@@ -134,7 +134,6 @@ globally installed in your computer. If not, you can get from links below:
 * Create and activate your virtual environment in python3 in your workspace:
     ```bash
     $ virtualenv -p python3 venv
-    $ pip install autoenv
     $ source venv/bin/activate
     ```
 ##### Clone the repo
@@ -181,15 +180,27 @@ update it in config.py
     $ pytest -v tests/test_restapi.py  
     ```
 ##### Easy run/test with Makefile
-* Run app
+* Run app on current env
     ```bash
-    $ make app
+    $ make run_app
     ```
 * Shutdown app
     ```bash
     $ make kill_app
     ```
-* Run unit tests
+* Run unit tests on current env
     ```bash
     $ make test
+    ```
+* Deploy app on virtual env
+    ```bash
+    $ make deploy_app
+    ```
+* Create virtual env for the app
+    ```bash
+    $ make virtenv
+    ```
+* clean up env
+    ```bash
+    $ make clean
     ```
