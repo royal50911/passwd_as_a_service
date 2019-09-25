@@ -2,6 +2,14 @@
 A simple rest api app to expose the user and group information on a UNIX-like 
 system that is usually locked away in the UNIX /etc/passwd and /etc/groups files
 
+- [Highlights](#highlights)
+- [REST api summary](#summary)
+- [DEMO of a running app on a system](#demo)
+- [Folder Structure](#structure)
+- [Setup and Usage](#setup)
+- [Easy Run with Makefile](#makefile)
+
+<a name="highlights"></a>
 ## Highlights
 - Exposes passwd file system
 - Exposes group file system
@@ -13,6 +21,7 @@ system that is usually locked away in the UNIX /etc/passwd and /etc/groups files
 - Search a group by query fields
 - Search a user by query fields
 
+<a name="summary"></a>
 ## REST api summary
 
 ##### ```GET /```
@@ -86,6 +95,9 @@ when query members are a subset of group members.
     ``` bash
     {“name”: “docker”, “gid”: 1002, “members”: [“dwoodlins”]}
     ```
+
+<a name="demo"></a>
+## DEMO
 ##### <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SW-logo-clr.png" height="40">
 ##### SWAGGER UI Documentation and Try Out [here](https://app.swaggerhub.com/apis-docs/royal50911/passwd-as-a-service/1.0)
 
@@ -93,6 +105,7 @@ when query members are a subset of group members.
 ##### Example of the app deployed on heroku
 * **[passwd-as-a-service](https://passwd-as-a-service.herokuapp.com/users)**
 
+<a name="structure"></a>
 ## Folder Structure
     .
     ├── api_app.py              # main app file to run application
@@ -110,6 +123,7 @@ when query members are a subset of group members.
     │   ├── userParser.py       # helper class to parse passwd file
     └── README.md               # Docs for github
     
+<a name="setup"></a>
 ## Setup and Usage
 
 ##### Tech Required
@@ -179,7 +193,9 @@ update it in config.py
     ```
     $ pytest -v tests/test_restapi.py  
     ```
-##### Easy run/test with Makefile
+
+<a name="makefile"></a>
+## Easy run/test with Makefile
 * Run app on current env
     ```bash
     $ make run_app
